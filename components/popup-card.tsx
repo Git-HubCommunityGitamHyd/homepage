@@ -3,7 +3,7 @@
 import type React from "react"
 import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { X } from "lucide-react"
 import type { ReactNode } from "react"
 
@@ -20,49 +20,40 @@ export function PopupCard({ frontContent, backContent, className = "", cardId }:
   const [mounted, setMounted] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
 
-  // Ensure component is mounted (for portal)
   useEffect(() => {
     setMounted(true)
   }, [])
 
   const handleCardClick = () => {
     setIsExpanded(true)
-    setTimeout(() => setShowBackContent(true), 150) // Delay to sync with expansion
+    setTimeout(() => setShowBackContent(true), 150)
   }
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setShowBackContent(false)
-    setTimeout(() => setIsExpanded(false), 150) // Delay to sync with content fade
-  }
+    setTimeout(() => setIsExpanded(false), 150)
+  }, [])
 
   const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      handleClose()
-    }
+    if (e.target === e.currentTarget) handleClose()
   }
 
-  // Handle escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isExpanded) {
-        handleClose()
-      }
+      if (e.key === "Escape" && isExpanded) handleClose()
     }
-
     if (isExpanded) {
       document.addEventListener("keydown", handleEscape)
       document.body.style.overflow = "hidden"
     }
-
     return () => {
       document.removeEventListener("keydown", handleEscape)
       document.body.style.overflow = "unset"
     }
-  }, [isExpanded, handleClose])
+  }, [isExpanded])
 
   return (
     <>
-      {/* Original Card - always present but invisible when expanded */}
       <motion.div
         ref={cardRef}
         className={`cursor-pointer ${className}`}
@@ -70,18 +61,15 @@ export function PopupCard({ frontContent, backContent, className = "", cardId }:
         whileHover={{ scale: 1.02, y: -5 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
         layoutId={`card-${cardId}`}
-        style={{
-          visibility: isExpanded ? "hidden" : "visible",
-        }}
+        style={{ visibility: isExpanded ? "hidden" : "visible" }}
       >
         {frontContent}
       </motion.div>
 
-      {/* Popup Overlay - Using Portal */}
       {mounted && isExpanded && createPortal(
         <AnimatePresence>
           <motion.div
-            className="fixed inset-0 bg-black/80 backdrop-blur-lg flex items-center justify-center p-4 popup-overlay"
+            className="fixed inset-0 bg-black/80 dark:bg-black/90 backdrop-blur-lg flex items-center justify-center p-4 popup-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -89,16 +77,14 @@ export function PopupCard({ frontContent, backContent, className = "", cardId }:
             onClick={handleOverlayClick}
             style={{ zIndex: 9999999 }}
           >
-
             <motion.div
-              className="relative bg-white rounded-3xl shadow-2xl max-w-6xl w-full h-auto max-h-[80vh] overflow-y-auto hide-scrollbar popup-content"
+              className="relative bg-white dark:bg-gh-surface rounded-3xl shadow-2xl dark:shadow-black/60 max-w-6xl w-full h-auto max-h-[80vh] overflow-y-auto hide-scrollbar popup-content"
               layoutId={`card-${cardId}`}
               transition={{ duration: 0.4, ease: "easeOut" }}
               style={{ zIndex: 10000000 }}
             >
-              {/* Close Button inside scrollable content */}
               <motion.button
-                className="absolute top-4 right-4 w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg"
+                className="absolute top-4 right-4 w-10 h-10 bg-gray-100 dark:bg-gh-elevated hover:bg-gray-200 dark:hover:bg-gh-border rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg"
                 onClick={handleClose}
                 whileHover={{ scale: 1.1, rotate: 90 }}
                 whileTap={{ scale: 0.9 }}
@@ -107,9 +93,9 @@ export function PopupCard({ frontContent, backContent, className = "", cardId }:
                 exit={{ opacity: 0, scale: 0 }}
                 style={{ zIndex: 10000001 }}
               >
-                <X className="h-6 w-6 text-gray-600" />
+                <X className="h-6 w-6 text-gray-600 dark:text-gh-muted" />
               </motion.button>
-              {/* Content Container */}
+
               <AnimatePresence>
                 {showBackContent && (
                   <motion.div

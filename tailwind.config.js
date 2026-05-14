@@ -24,6 +24,15 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        gh: {
+          bg:       '#0d1117',
+          surface:  '#161b22',
+          elevated: '#21262d',
+          border:   '#30363d',
+          text:     '#e6edf3',
+          muted:    '#8b949e',
+          accent:   '#58a6ff',
+        },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

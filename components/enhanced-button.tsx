@@ -36,11 +36,11 @@ export function EnhancedButton({
       case "email":
         return "bg-green-600 hover:bg-green-700 text-white border-green-600 shadow-lg hover:shadow-xl"
       case "community":
-        return "bg-gradient-to-r from-black via-gray-800 to-black hover:from-gray-800 hover:via-black hover:to-gray-800 text-white border-black shadow-2xl hover:shadow-3xl transform-gpu"
+        return "bg-gradient-to-r from-black via-gray-800 to-black dark:from-gh-elevated dark:via-gh-border dark:to-gh-elevated hover:from-gray-800 hover:to-gray-800 dark:hover:from-gh-border dark:hover:to-gh-border text-white border-black dark:border-gh-border shadow-2xl"
       default:
         return isPrimary
-          ? "bg-black hover:bg-gray-800 text-white border-black hover:shadow-lg hover:shadow-black/25"
-          : "border-black text-black hover:bg-gray-50 bg-transparent hover:shadow-md"
+          ? "bg-black hover:bg-gray-800 dark:bg-gh-elevated dark:hover:bg-gh-border dark:border-gh-border text-white border-black hover:shadow-lg hover:shadow-black/25 dark:hover:shadow-gh-accent/10"
+          : "border-black dark:border-gh-border text-black dark:text-gh-text hover:bg-gray-50 dark:hover:bg-gh-elevated bg-transparent hover:shadow-md"
     }
   }
 
@@ -53,7 +53,7 @@ export function EnhancedButton({
     >
       {colorScheme === "community" && (
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-blue-600/20 to-purple-600/20 opacity-0 blur-xl"
+          className="absolute inset-0 bg-gradient-to-r from-gh-accent/20 via-blue-600/20 to-gh-accent/20 opacity-0 blur-xl"
           whileHover={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
         />
@@ -78,25 +78,17 @@ export function EnhancedButton({
           {children}
         </motion.span>
 
-        {/* Shimmer effect for community button */}
         {colorScheme === "community" && (
           <motion.div
             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
             initial={{ x: "-100%" }}
-            whileHover={{
-              x: "200%",
-              transition: { duration: 0.8, ease: "easeInOut" },
-            }}
+            whileHover={{ x: "200%", transition: { duration: 0.8, ease: "easeInOut" } }}
           />
         )}
 
-        {/* Ripple effect */}
         <motion.div
           className="absolute inset-0 bg-white rounded-xl opacity-0"
-          whileTap={{
-            opacity: [0, 0.2, 0],
-            scale: [0.8, 1.1, 1],
-          }}
+          whileTap={{ opacity: [0, 0.2, 0], scale: [0.8, 1.1, 1] }}
           transition={{ duration: 0.3, ease: "easeOut" }}
         />
       </Button>

@@ -31,26 +31,27 @@
     --chart-5: 27 87% 67%;
   }
 
+  /* GitHub dark theme — exact HSL conversions of GitHub's palette */
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --background: 216 28% 7%;       /* #0d1117 */
+    --foreground: 210 32% 93%;      /* #e6edf3 */
+    --card: 213 21% 11%;            /* #161b22 */
+    --card-foreground: 210 32% 93%;
+    --popover: 213 21% 11%;
+    --popover-foreground: 210 32% 93%;
+    --primary: 212 100% 67%;        /* #58a6ff */
+    --primary-foreground: 216 28% 7%;
+    --secondary: 213 15% 15%;       /* #21262d */
+    --secondary-foreground: 210 32% 93%;
+    --muted: 213 15% 15%;
+    --muted-foreground: 211 8% 58%; /* #8b949e */
+    --accent: 213 15% 15%;
+    --accent-foreground: 210 32% 93%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --border: 210 12% 21%;          /* #30363d */
+    --input: 210 12% 21%;
+    --ring: 212 100% 67%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -171,6 +172,39 @@ button:focus-visible,
 a:focus-visible {
   outline: 2px solid #000;
   outline-offset: 2px;
+}
+
+.dark button:focus-visible,
+.dark a:focus-visible {
+  outline-color: #58a6ff;
+}
+
+/* Skeleton shimmer — transform-only so the browser composites on the GPU */
+@keyframes skeleton-shimmer {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%); }
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: #f3f4f6;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.6) 50%, transparent 75%);
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+.dark .skeleton {
+  background-color: #161b22;
+}
+
+.dark .skeleton::after {
+  background: linear-gradient(90deg, transparent 25%, rgba(33,38,45,0.8) 50%, transparent 75%);
 }
   
 /* Utility to hide native scrollbars */

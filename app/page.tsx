@@ -15,6 +15,8 @@ import { EventPopupCard } from "@/components/event-popup-card"
 import { EnhancedTimeline } from "@/components/enhanced-timeline"
 import { QRPopupCard } from "@/components/qr-popup-card"
 import { EnhancedBackgroundElements } from "@/components/enhanced-background-elements"
+import { ThemeToggle } from "@/components/theme-toggle"
+import { PageSkeleton } from "@/components/page-skeleton"
 
 export default function GitHubCommunityPortfolio() {
   const [mounted, setMounted] = useState(false);
@@ -41,7 +43,7 @@ export default function GitHubCommunityPortfolio() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) return <PageSkeleton />;
 
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" })
@@ -74,7 +76,7 @@ export default function GitHubCommunityPortfolio() {
       role: "Secretary",
       image: "/images/board/i-saiguru.jpeg",
       description:
-        "A driven and curious techie with a strong focus on AI/ML, Data structures, and automation. As Vice President of the GitHub Community Club at GITAM, he leads with a mission to foster innovation, peer learning, and open-source collaboration. With hands-on experience in building intelligent applications and guiding community initiatives, he bridges the gap between learning and real-world impact. Known for his enthusiasm and creative mindset, he’s passionate about empowering fellow students through projects, workshops, and impactful technical events. Always exploring, always building — with purpose and passion.",
+        "A driven and curious techie with a strong focus on AI/ML, Data structures, and automation. As Secretary of the GitHub Community Club at GITAM, he leads with a mission to foster innovation, peer learning, and open-source collaboration. With hands-on experience in building intelligent applications and guiding community initiatives, he bridges the gap between learning and real-world impact. Known for his enthusiasm and creative mindset, he’s passionate about empowering fellow students through projects, workshops, and impactful technical events. Always exploring, always building — with purpose and passion.",
       github: "SaiGuruInukurthi",
       linkedin: "inukurthisaiguru",
       email: "sinukurt@gitam.in",
@@ -95,8 +97,8 @@ export default function GitHubCommunityPortfolio() {
       image: "/images/board/arushi.png",
       description:
         "B.Tech CSE student with a growing passion for tech and a strong belief in the power of teamwork. She thrives in collaborative spaces leading projects, learning alongside peers, and bringing ideas to life. Driven by personal growth and open conversations, she aims to create environments where everyone feels valued and heard. Still exploring, always evolving and committed to giving her best every step of the way.",
-      github: "https://github.com/ArushiDeshpande27",
-      linkedin: "https://www.linkedin.com/in/arushi-deshpande-1b2752319?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+      github: "ArushiDeshpande27",
+      linkedin: "arushi-deshpande-1b2752319",
       email: "adeshpan2@gitam.in",
     },
   ]
@@ -198,7 +200,7 @@ export default function GitHubCommunityPortfolio() {
   ]
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 relative">
+    <div className="min-h-screen bg-white dark:bg-gh-bg text-gray-900 dark:text-gh-text relative">
       {/* Animated Background Elements */}
       <AnimatedBackground />
       <FloatingGitHubElements />
@@ -206,7 +208,7 @@ export default function GitHubCommunityPortfolio() {
 
       {/* Navigation */}
       <motion.nav
-        className="fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-gray-200 z-40"
+        className="fixed top-0 w-full bg-white/90 dark:bg-gh-surface/90 backdrop-blur-md border-b border-gray-200 dark:border-gh-border z-40"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6 }}
@@ -223,30 +225,30 @@ export default function GitHubCommunityPortfolio() {
               </motion.div>
               <span className="font-bold text-xl">GitHub Community GITAM</span>
             </motion.div>
-            <div className="hidden md:flex space-x-8">
+            <div className="hidden md:flex items-center space-x-8">
               {["About", "Board", "Events", "Timeline", "Benefits"].map((item) => (
                 <motion.button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
                   className={`text-sm font-medium transition-all duration-300 relative ${
-                    activeSection === item.toLowerCase() ? "text-black" : "text-gray-500"
+                    activeSection === item.toLowerCase()
+                      ? "text-black dark:text-gh-text"
+                      : "text-gray-500 dark:text-gh-muted"
                   }`}
-                  whileHover={{
-                    scale: 1.1,
-                    color: "#000000",
-                  }}
+                  whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   {item}
                   {activeSection === item.toLowerCase() && (
                     <motion.div
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-black"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-black dark:bg-gh-accent"
                       layoutId="activeSection"
                       transition={{ duration: 0.3 }}
                     />
                   )}
                 </motion.button>
               ))}
+              <ThemeToggle />
             </div>
           </div>
         </div>
@@ -255,11 +257,11 @@ export default function GitHubCommunityPortfolio() {
       {/* Hero Section */}
       <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <motion.div className="absolute inset-0 opacity-5" style={{ y }}>
-          <div className="absolute top-20 left-10 w-32 h-32 border-2 border-gray-300 rounded-full" />
-          <div className="absolute top-40 right-20 w-24 h-24 border-2 border-gray-300 rounded-full" />
-          <div className="absolute bottom-40 left-1/4 w-16 h-16 border-2 border-gray-300 rounded-full" />
-          <GitBranch className="absolute top-1/3 right-1/3 w-20 h-20 text-gray-300" />
-          <Code className="absolute bottom-1/3 left-1/3 w-16 h-16 text-gray-300" />
+          <div className="absolute top-20 left-10 w-32 h-32 border-2 border-gray-300 dark:border-gh-elevated rounded-full" />
+          <div className="absolute top-40 right-20 w-24 h-24 border-2 border-gray-300 dark:border-gh-elevated rounded-full" />
+          <div className="absolute bottom-40 left-1/4 w-16 h-16 border-2 border-gray-300 dark:border-gh-elevated rounded-full" />
+          <GitBranch className="absolute top-1/3 right-1/3 w-20 h-20 text-gray-300 dark:text-gh-elevated" />
+          <Code className="absolute bottom-1/3 left-1/3 w-16 h-16 text-gray-300 dark:text-gh-elevated" />
         </motion.div>
 
         <div className="text-center z-10 max-w-4xl mx-auto px-4">
@@ -293,11 +295,8 @@ export default function GitHubCommunityPortfolio() {
               GitHub Community
             </motion.span>
             <motion.span
-              className="block text-gray-600"
-              whileHover={{
-                scale: 1.05,
-                color: "#000000",
-              }}
+              className="block text-gray-600 dark:text-gh-muted"
+              whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
             >
               GITAM
@@ -308,7 +307,7 @@ export default function GitHubCommunityPortfolio() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto"
+            className="text-xl md:text-2xl text-gray-600 dark:text-gh-muted mb-8 max-w-2xl mx-auto"
           >
             Empowering developers, fostering collaboration, and building the future of open source at GITAM University
           </motion.p>
@@ -335,12 +334,12 @@ export default function GitHubCommunityPortfolio() {
           whileHover={{ scale: 1.2 }}
           onClick={() => scrollToSection("about")}
         >
-          <ChevronDown className="h-6 w-6 text-gray-400" />
+          <ChevronDown className="h-6 w-6 text-gray-400 dark:text-gh-muted" />
         </motion.div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-gray-50 relative z-10">
+      <section id="about" className="py-20 bg-gray-50 dark:bg-gh-surface relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -352,7 +351,7 @@ export default function GitHubCommunityPortfolio() {
             <motion.h2 className="text-4xl font-bold mb-6" whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
               About Our Community
             </motion.h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gh-muted max-w-3xl mx-auto">
               We are a vibrant community of developers, designers, and tech enthusiasts at GITAM University, dedicated
               to promoting open source culture and collaborative development.
             </p>
@@ -407,9 +406,9 @@ export default function GitHubCommunityPortfolio() {
             <motion.h2 className="text-4xl font-bold mb-6" whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
               Executive Board
             </motion.h2>
-            <p className="text-xl text-gray-600 mb-4">Meet the leaders driving our community forward</p>
+            <p className="text-xl text-gray-600 dark:text-gh-muted mb-4">Meet the leaders driving our community forward</p>
             <motion.p
-              className="text-sm text-gray-500 bg-gray-100 inline-block px-4 py-2 rounded-full"
+              className="text-sm text-gray-500 dark:text-gh-muted bg-gray-100 dark:bg-gh-elevated inline-block px-4 py-2 rounded-full"
               animate={{ opacity: [0.7, 1, 0.7] }}
               transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
             >
@@ -437,7 +436,7 @@ export default function GitHubCommunityPortfolio() {
       </section>
 
       {/* Events Gallery */}
-      <section id="events" className="py-20 bg-gray-50 relative z-10">
+      <section id="events" className="py-20 bg-gray-50 dark:bg-gh-surface relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -449,9 +448,9 @@ export default function GitHubCommunityPortfolio() {
             <motion.h2 className="text-4xl font-bold mb-6" whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
               Events from last year
             </motion.h2>
-            <p className="text-xl text-gray-600 mb-4">Highlights from our community gatherings and workshops</p>
+            <p className="text-xl text-gray-600 dark:text-gh-muted mb-4">Highlights from our community gatherings and workshops</p>
             <motion.p
-              className="text-sm text-gray-500 bg-gray-100 inline-block px-4 py-2 rounded-full"
+              className="text-sm text-gray-500 dark:text-gh-muted bg-gray-100 dark:bg-gh-elevated inline-block px-4 py-2 rounded-full"
               animate={{ opacity: [0.7, 1, 0.7] }}
               transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
             >
@@ -480,7 +479,7 @@ export default function GitHubCommunityPortfolio() {
             <motion.h2 className="text-4xl font-bold mb-6" whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
               Our Journey
             </motion.h2>
-            <p className="text-xl text-gray-600">From the start</p>
+            <p className="text-xl text-gray-600 dark:text-gh-muted">From the start</p>
           </motion.div>
 
           <EnhancedTimeline
@@ -531,7 +530,7 @@ export default function GitHubCommunityPortfolio() {
       </section>
 
       {/* Benefits Section */}
-      <section id="benefits" className="py-20 bg-gray-50 relative z-10">
+      <section id="benefits" className="py-20 bg-gray-50 dark:bg-gh-surface relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -543,7 +542,7 @@ export default function GitHubCommunityPortfolio() {
             <motion.h2 className="text-4xl font-bold mb-6" whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
               Why Join Us?
             </motion.h2>
-            <p className="text-xl text-gray-600">Discover the benefits of being part of our community</p>
+            <p className="text-xl text-gray-600 dark:text-gh-muted">Discover the benefits of being part of our community</p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -586,7 +585,7 @@ export default function GitHubCommunityPortfolio() {
                 transition={{ duration: 0.8, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <InteractiveCard className="h-full border-l-4 border-l-black" hoverScale={1.05} glowEffect>
+                <InteractiveCard className="h-full border-l-4 border-l-black dark:border-l-gh-accent" hoverScale={1.05} glowEffect>
                   <CardHeader>
                     <motion.div
                       whileHover={{
@@ -633,7 +632,7 @@ export default function GitHubCommunityPortfolio() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-white py-12 relative z-10">
+      <footer className="bg-black dark:bg-gh-surface border-t border-transparent dark:border-gh-border text-white py-12 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
@@ -701,7 +700,7 @@ export default function GitHubCommunityPortfolio() {
             </div>
           </div>
 
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+          <div className="border-t border-gray-800 dark:border-gh-border mt-8 pt-8 text-center text-gray-400 dark:text-gh-muted">
             <p>&copy; 2025 GitHub Community GITAM. All rights reserved.</p>
           </div>
         </div>
